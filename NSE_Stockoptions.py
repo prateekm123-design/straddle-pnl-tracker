@@ -1,5 +1,8 @@
 import time
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
+
+# Define IST timezone offset (+05:30)
+IST = timezone(timedelta(hours=5, minutes=30))
 from pathlib import Path
 
 import pandas as pd
@@ -259,7 +262,7 @@ def render_pricing_table():
     }])
     straddle_df = pd.concat([straddle_df, total_row], ignore_index=True)
 
-  status_text.text(f"Last updated: {datetime.now().strftime('%H:%M:%S')}")
+  status_text.text(f"Last updated: {datetime.now(IST).strftime('%I:%M:%S %p')} IST")
 
   styled_df = straddle_df.style.map(
       apply_heatmap, subset=["PnL %"]
